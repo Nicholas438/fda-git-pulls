@@ -1,79 +1,48 @@
 # NutriChat — Food Nutrition AI
 
-A fullstack web app that analyzes food photos and provides FDA-style Nutrition Facts labels via AI-powered chat. Built with **FastAPI** (backend) + **Next.js** (frontend) using **Groq** as the AI provider.
+Upload a food photo and get an instant FDA-style Nutrition Facts label, then chat back and forth with the AI about what you're eating.
 
-## Features
-
-- 📸 Upload a food photo (drag & drop, click, or take a photo on mobile)
-- 🏷️ Instant FDA-style Nutrition Facts label with macros, micros & % Daily Values
-- 💬 Back-and-forth conversation about the food (calories, healthier alternatives, diet fit, etc.)
-- ⚡ Powered by Groq — blazing fast LLM inference
-- 🔄 Upload new photos mid-conversation
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Frontend | Next.js 14, TypeScript, Tailwind CSS |
-| Backend | FastAPI, Python 3.11+ |
-| AI/Vision | Groq — `llama-4-scout` (vision) + `llama-3.3-70b` (chat) |
+**Stack:** FastAPI · React (Vite + TSX) · Tailwind CSS · Groq
 
 ---
 
-## Setup
+## Quick Start
 
-### 1. Get a Groq API Key
-
-Sign up at [console.groq.com](https://console.groq.com) and create an API key (free tier available).
+### 1. Get a Groq API key
+Sign up at [console.groq.com](https://console.groq.com) (free tier available).
 
 ### 2. Backend
-
 ```bash
 cd backend
 python -m venv venv
-venv\Scripts\activate          # Windows
-# source venv/bin/activate     # Mac/Linux
-
+venv\Scripts\activate        # Windows
 pip install -r requirements.txt
-
-copy .env.example .env         # Windows
-# cp .env.example .env         # Mac/Linux
-# Then edit .env and add your GROQ_API_KEY
-```
-
-Start the backend:
-```bash
+copy .env.example .env       # then add your GROQ_API_KEY
 uvicorn main:app --reload --port 8000
 ```
 
-The API will be available at http://localhost:8000
-
 ### 3. Frontend
-
 ```bash
 cd frontend
-npm install
-npm run dev
+npm install   # already done if you cloned fresh
+npm run dev   # http://localhost:5173
 ```
 
-The app will be available at http://localhost:3000
+Or double-click `start.bat` to launch both in separate terminals.
 
 ---
 
-## Usage
+## How it works
 
-1. Open http://localhost:3000
-2. Drag & drop a food photo or click to browse
-3. The AI generates a Nutrition Facts label in seconds
-4. Ask follow-up questions — calories, macros, dietary fit, alternatives, etc.
-5. Click "New photo" anytime to analyze a different food
-
----
+| Step | What happens |
+|---|---|
+| Upload photo | Image is sent to FastAPI → Groq vision model (`llama-4-scout`) → FDA-style Nutrition Facts label |
+| Chat | Your messages + full conversation history → Groq chat model (`llama-3.3-70b`) → contextual dietary advice |
 
 ## API Endpoints
 
 | Method | Path | Description |
 |---|---|---|
-| `POST` | `/api/analyze-food` | Upload image → returns Nutrition Facts label |
-| `POST` | `/api/chat` | Send chat messages → returns AI reply |
+| `POST` | `/api/analyze-food` | Upload image → Nutrition Facts label |
+| `POST` | `/api/chat` | Chat messages → AI reply |
 | `GET` | `/api/health` | Health check |
